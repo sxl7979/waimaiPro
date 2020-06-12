@@ -266,7 +266,9 @@ export default {
 
 <style lang="less" scoped>
 #addacc {
+  background: #ccc;
   .box-card {
+    background: #ccc;
     box-sizing: border-box;
     padding: 0;
     h3 {

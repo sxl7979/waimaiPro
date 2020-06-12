@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <div class="msg_look">
+    <div class="msg_look" style=" display: flex;justify-content: space-around;">
       <Com1 v-for="(item,i) in data" :key="i" :name="item.name" :num="item.number"></Com1>
     </div>
     <div id="myChart" :style="{width: '80%', height: '600px'} "></div>
@@ -95,12 +95,16 @@ amountData: (7) [220, 282, 191, 234, 290, 330, 310] */
 
 <style lang="less" scoped>
 #home {
+  background: rgba(0, 0, 0, 0.2);
   width: 100%;
+    // background: url("../../assets/imges/tk1.jpg") no-repeat;
+    // background-size: 100% 100%;
   .msg_look {
     display: flex;
     justify-content: space-around;
+    color: #fff;
     > div {
-      background: #eee;
+      background: #383838;
     }
   }
 }

@@ -127,18 +127,6 @@ router.beforeEach((to, from, next) => {
             if(res.data.code==0){
                 next()
                 
-                // if(to.path=="/index/home"){
-                //     let rolepage=JSON.parse(sessionStorage.rolepage)
-                    
-                //     for(let e of rolepage){
-                //         if(to.path=e){
-                //             next()
-                //         }else{
-                //             next(from.path)
-                //         }
-                //     }
-                    
-                // }
             }else{
                 next("/")
             }

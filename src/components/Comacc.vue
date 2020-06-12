@@ -1,6 +1,7 @@
 <template>
   <el-breadcrumb separator-class="el-icon-arrow-right">
-    <el-breadcrumb-item :to="{ path: '/index/home' }">首页</el-breadcrumb-item>
+    
+    <el-breadcrumb-item :to="{ path: '/index/home' }" style="color:#DCDFE6">首页</el-breadcrumb-item>
     <el-breadcrumb-item v-for="(e,i) in nav" :key="i">{{e}}</el-breadcrumb-item>
 
     <div class="accbox "  >
@@ -36,7 +37,7 @@ export default {
   methods: {
     tepages() {
       this.$route.push("/index/home");
-      console.log(1);
+      
     },
     out(){
       window.sessionStorage.clear()
@@ -65,8 +66,10 @@ export default {
   color: #fff;
   font-size: 20px;
   width: 100%;
-  background: url("../assets/imges/nav2.jpg") no-repeat ;
-  background-size:100% 100%; background-attachment:fixed;
+  
+  // background: url("../assets/imges/nav.jpg") no-repeat ;
+  // background-size:100% 100%; background-attachment:fixed;
+  background-color: rgb(84, 92, 100);
   padding: 0 20px;
   box-sizing: border-box;
   

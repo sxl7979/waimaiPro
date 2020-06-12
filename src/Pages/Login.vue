@@ -1,10 +1,10 @@
 <template>
   <div id="login">
-    <el-card class="box-card">
+    <el-card class="box-card" >
       <h2>多人运动俱乐部后台</h2>
-      <el-input v-model="acc" placeholder="账号"></el-input>
-      <el-input v-model="pwd" placeholder="密码"></el-input>
-      <el-button @click="lognicheck()" type="primary">登陆</el-button>
+      <el-input class="login_input" style="background:rgba(0,0,0,.5); color:#fff" v-model="acc" placeholder="账号"></el-input>
+      <el-input class="login_input" v-model="pwd" placeholder="密码"></el-input>
+      <el-button @click="lognicheck()" type="primary" style="color:#0215E21;">登陆</el-button>
     </el-card>
   </div>
 </template>
@@ -19,6 +19,7 @@ export default {
       acc:'',
       pwd:'',
       CheckLogin:true,
+      flag:false
     };
   },
   methods: {
@@ -28,7 +29,7 @@ export default {
         API_LOGIN(this.acc,this.pwd).then((req)=>{
           if(req.data.code==0){
             this.$message({
-            message: '登陆成功,即将跳转',
+            message: '登陆成功',
             type: 'success'
             });
             
@@ -51,7 +52,12 @@ export default {
         
         
         
-    }
+    },
+  // created(){
+  //   setTimeout(()=>{
+  //     this.flag=true
+  //   },10850)
+  // }
   
 };
 </script>
@@ -64,11 +70,14 @@ export default {
   justify-content: center;
   align-items: center;
 
-  background:url("../assets/imges/lzx.jpg") no-repeat ;
+  background:url("../assets/imges/bg2.jpg") no-repeat ;
   background-size:100% 100%; background-attachment:fixed;
   
   
   .el-input {
+    input{
+      background: rgba(0, 0, 0, .4);
+    }
     line-height: 40px;
     margin-bottom: 20px;
     .el-input__inner{
@@ -77,7 +86,9 @@ export default {
   }
   .el-button {
     width: 100%;
-    
+    background:rgba(0, 0, 0, .5);
+    border: 1px solid rgba(2, 94, 33, 1);
+    font-size: 20px;
   }
   .box-card {
     text-align: center;

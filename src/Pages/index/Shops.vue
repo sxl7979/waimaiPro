@@ -21,7 +21,7 @@
 
 
         <el-form-item label="店铺公告" prop="bulletin">
-          <el-input type="textarea" v-model="ruleForm.bulletin"></el-input>
+          <el-input type="textarea" v-model="ruleForm.bulletin" ></el-input>
         </el-form-item>
 
 
@@ -52,7 +52,7 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
-              <img  @click="getimg(item,i)" :src='"http://127.0.0.1:5000/upload/shop/"+item' class="avatar" />
+              <img  @click="getimg(item,i)" :src='SHOPIMG_UPLOAD+item' class="avatar" />
               
             </el-upload>
           </div>
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import {SHOPS_INFO,SHOPS_EDIT} from "@/API/goods"
+import {SHOPS_INFO,SHOPS_EDIT,SHOPIMG_UPLOAD} from "@/API/goods"
 export default {
   
   data() {
@@ -116,6 +116,7 @@ export default {
       ruleForm: {
         
       },
+      SHOPIMG_UPLOAD,
       shopsprices:'',
       supports:[],
       changebefore:"",
@@ -132,7 +133,6 @@ export default {
         desc: "",
         
       },
-      imgurl:"http://127.0.0.1:5000/upload/shop/",
       value1:''
     };
   },
@@ -210,7 +210,7 @@ export default {
       this.imageUrl=1
       this.supports=res.data.data.supports
       this.ruleForm.pics=res.data.data.pics
-      this.imageUrl=this.imgurl+res.data.data.avatar
+      this.imageUrl=this.SHOPIMG_UPLOAD+res.data.data.avatar
 
       this.ruleForm=res.data.data
       
@@ -227,8 +227,10 @@ export default {
 
 <style lang="less" scoped>
 #acc {
+  
   width: 100%;
   .box-card {
+    background: #ccc;
     box-sizing: border-box;
     padding: 0;
     h3 {

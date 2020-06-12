@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="goodsnum">
     <div class="sales_top">
         时间范围2
         <el-time-picker
@@ -133,6 +133,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+#goodsnum{
+    background: #ccc;
+}
 .sales_top{
     padding: 30px;
     .el-button{
