@@ -1,6 +1,7 @@
 <template>
   <div id="login">
     <el-card class="box-card">
+      <h2>多人运动俱乐部后台</h2>
       <el-input v-model="acc" placeholder="账号"></el-input>
       <el-input v-model="pwd" placeholder="密码"></el-input>
       <el-button @click="lognicheck()" type="primary">登陆</el-button>
@@ -62,16 +63,30 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.3);
+
+  background:url("../assets/imges/lzx.jpg") no-repeat ;
+  background-size:100% 100%; background-attachment:fixed;
+  
+  
   .el-input {
     line-height: 40px;
-    margin: 6px;
+    margin-bottom: 20px;
+    .el-input__inner{
+      background: red;
+    }
   }
   .el-button {
     width: 100%;
+    
   }
   .box-card {
-    width: 300px;
+    text-align: center;
+    width: 360px;
+    background-color: transparent;
+    h2{color: #fff;}
+    .el-input__inner{
+      background: #008c8c;
+    }
   }
 }
 </style>

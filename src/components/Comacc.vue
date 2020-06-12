@@ -3,12 +3,14 @@
     <el-breadcrumb-item :to="{ path: '/index/home' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item v-for="(e,i) in nav" :key="i">{{e}}</el-breadcrumb-item>
 
-    <div class="accbox" >
+    <div class="accbox "  >
       <span v-html="acctext"></span>
       <el-dropdown>
         <p class="el-dropdown-link accimg">
           <img :src="imgurl" width="80px " height="80px" alt />
+          
         </p>
+        
         <el-dropdown-menu slot="dropdown">
           <el-link type="primary" href="/#/index/accmsg">个人信息</el-link>
           <br />
@@ -49,7 +51,7 @@ export default {
     })
     API_CHECKTOKEN(sessionStorage.token).then(res => {
       if(res.data.code==0){
-        this.acctext="欢迎回来!"+sessionStorage.accname+""
+        this.acctext="欢迎回来!<a href='/#/index/accmsg' style='color:blue;margin:0 10px'>"+sessionStorage.accname+"</a>"
       }else{
         this.acctext="<a href='/'>请登陆</a>"
       }
@@ -60,11 +62,20 @@ export default {
 
 <style lang="less" scoped>
 .el-breadcrumb {
+  color: #fff;
+  font-size: 20px;
   width: 100%;
-  
+  background: url("../assets/imges/nav2.jpg") no-repeat ;
+  background-size:100% 100%; background-attachment:fixed;
   padding: 0 20px;
   box-sizing: border-box;
-  background: #eee;
+  
+  .el-breadcrumb-item{
+    color: #fff !important;
+    .el-breadcrumb__inner{
+      color: #fff;
+    }
+  }
   >span{
     line-height:60px;
   }

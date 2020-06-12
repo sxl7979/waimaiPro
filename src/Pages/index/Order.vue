@@ -25,7 +25,10 @@
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
+            
             :picker-options="pickerOptions"
+            format="yyyy 年 MM 年 dd月 hh 时 mm 分 ss 秒"
+            value-format="yyyy-MM-dd hh:mm:ss"
           ></el-date-picker>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -41,9 +44,7 @@
         <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
         <el-table-column prop="consignee" label="收货人" width="120"></el-table-column>
         <el-table-column prop="deliverAddress" label="配送地址" width="300"></el-table-column>
-        <el-table-column prop="deliveryTime" label="送达时间" width="160">
-            
-        </el-table-column>
+        <el-table-column prop="deliveryTime" label="送达时间" width="160"></el-table-column>
         <el-table-column prop="remarks" label="用户备注" width="120"></el-table-column>
         <el-table-column prop="orderAmount" label="订单金额" width="120"></el-table-column>
         <el-table-column prop="orderState" label="订单状态" width="120"></el-table-column>
@@ -84,8 +85,13 @@
           </el-form-item>
 
           <el-form-item label="送达时间" :label-width="formLabelWidth">
-
-            <el-date-picker v-model="form.deliveryTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="选择日期时间" @change="getdeliveryTime"></el-date-picker>
+            <el-date-picker
+              v-model="form.deliveryTime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              type="datetime"
+              placeholder="选择日期时间"
+              @change="getdeliveryTime"
+            ></el-date-picker>
 
             <!-- <el-date-picker v-model="form.deliveryTime" type="datetime" placeholder="选择日期时间" @change="getSTime"
               value-format="yyyy-MM-dd HH:mm:ss"  align="right"  :disabled="flag">
@@ -121,7 +127,12 @@
 </template>
 
 <script>
-import { ORDER_GETLIST, ORDER_LOOKdetail, ORDER_DEITORDER } from "@/API/order";
+import {
+  ORDER_GETLIST,
+  ORDER_LOOKdetail,
+  ORDER_DEITORDER,
+  ORDER_LIST
+} from "@/API/order";
 export default {
   data() {
     return {
@@ -174,14 +185,48 @@ export default {
       currentPage: 1,
       dialogFormVisible: false,
       form: {},
-      formLabelWidth: "120px"
+      formLabelWidth: "120px",
+      cleardate:""
     };
   },
   methods: {
-    onSubmit() {},
-    getdeliveryTime(val){
+    
+    //查询框
+    onSubmit() {
+      if(this.value2==null){
+        this.value2=''
+      }
+      ORDER_LIST(
+        this.currentPage,
+        this.pages,
+        this.formInline.orderNo,
+        this.formInline.consignee,
+        this.formInline.phone,
+        this.formInline.orderState,
+        JSON.stringify(this.value2)
+      ).then(res => {
+        console.log(res);
+        
+        if (res.data.total != 0) {
+          this.total = res.data.total;
+          for (let e of res.data.data) {
+            e.orderTime = new Date(e.orderTime)
+              .toJSON()
+              .substr(0, 19)
+              .replace("T", " ");
+            e.deliveryTime = new Date(e.deliveryTime)
+              .toJSON()
+              .substr(0, 19)
+              .replace("T", " ");
+          }
+          this.tableData = res.data.data;
+        }else{
+          this.$message.error('没有有关联的数据');
+        }
+      });
+    },
+    getdeliveryTime(val) {
       console.log(val);
-      
     },
     getSTime(val) {
       console.log(val);
@@ -201,10 +246,16 @@ export default {
     refeshtableData() {
       ORDER_GETLIST(this.currentPage, this.pages).then(res => {
         this.total = res.data.total;
-        console.log(res.data.data);
-        for(let e of res.data.data){
-          e.orderTime=new Date(e.orderTime).toJSON().substr(0,19).replace("T"," ")
-          e.deliveryTime=new Date(e.deliveryTime).toJSON().substr(0,19).replace("T"," ")
+
+        for (let e of res.data.data) {
+          e.orderTime = new Date(e.orderTime)
+            .toJSON()
+            .substr(0, 19)
+            .replace("T", " ");
+          e.deliveryTime = new Date(e.deliveryTime)
+            .toJSON()
+            .substr(0, 19)
+            .replace("T", " ");
         }
         this.tableData = res.data.data;
       });
@@ -220,13 +271,16 @@ export default {
     },
     //编辑框
     handleEdit(row) {
-
       ORDER_LOOKdetail(row.id).then(res => {
-          res.data.data.orderTime=new Date(res.data.data.orderTime).toJSON().substr(0,19).replace("T"," ")
-          res.data.data.deliveryTime=new Date(res.data.data.deliveryTime).toJSON().substr(0,19).replace("T"," ")
+        res.data.data.orderTime = new Date(res.data.data.orderTime)
+          .toJSON()
+          .substr(0, 19)
+          .replace("T", " ");
+        res.data.data.deliveryTime = new Date(res.data.data.deliveryTime)
+          .toJSON()
+          .substr(0, 19)
+          .replace("T", " ");
         this.form = res.data.data;
-        
-        
       });
 
       this.dialogFormVisible = true;
@@ -259,20 +313,29 @@ export default {
         orderState
       );
 
-
-      ORDER_DEITORDER(id,orderNo,orderTime,phone,consignee,deliverAddress,deliveryTime,remarks,orderAmount,orderState).then( res =>{
-        if(res.data.code==0){
+      ORDER_DEITORDER(
+        id,
+        orderNo,
+        orderTime,
+        phone,
+        consignee,
+        deliverAddress,
+        deliveryTime,
+        remarks,
+        orderAmount,
+        orderState
+      ).then(res => {
+        if (res.data.code == 0) {
           this.$message({
-          message: '修改成功',
-          type: 'success'
-        });
-        this.dialogFormVisible = false
-        this.refeshtableData()
-        }else{
-          this.$message.error('修改失败，请稍后再试');
+            message: "修改成功",
+            type: "success"
+          });
+          this.dialogFormVisible = false;
+          this.refeshtableData();
+        } else {
+          this.$message.error("修改失败，请稍后再试");
         }
-
-      })
+      });
 
       // ORDER_DEITORDER(id,orderNo,orderTime,phone,consignee,deliverAddress,deliveryTime,remarks,orderAmount,orderState).then(res=>{
       //   console.log(res);

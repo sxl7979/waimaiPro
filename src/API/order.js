@@ -12,4 +12,7 @@ export const ORDER_LOOKdetail=(id)=>axios.get("/order/detail",{params:{id}})
 export const ORDER_DEITORDER=(id,orderNo,orderTime,phone,consignee,deliverAddress,deliveryTime,remarks,orderAmount,orderState)=>axios.post("/order/edit",{id,orderNo,orderTime,phone,consignee,deliverAddress,deliveryTime,remarks,orderAmount,orderState})
 
 //订单接口
-export const ORDER_ORDERTOTAL=(data)=>axios.get("/order/ordertotal",{params:{data}})
+export const ORDER_ORDERTOTAL=(date)=>axios.get("/order/ordertotal",{params:{date}})
+
+//查询订单
+export const ORDER_LIST=(currentPage,pageSize,orderNo,consignee,phone,orderState,date)=>axios.get("/order/list",{params:{currentPage,pageSize,orderNo,consignee,phone,orderState,date}})

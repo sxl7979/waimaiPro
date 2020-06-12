@@ -281,6 +281,7 @@ export default {
 <style lang="less" scoped>
 .el-menu {
   border-right: none;
+  height: 100%;
 }
 .el-container {
   height: 100%;

@@ -35,7 +35,7 @@ const router = new VueRouter({
                 path: '/index/accmsg',
                 name: "accmsg",
                 component: () => import("../Pages/index/acc/AccMsg.vue"),
-                meta: ['订单管理']
+                meta: ['账号管理',"个人信息"]
             },
             //店铺管理模块
             {
